@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>Moloko Seshwene · Electrician CV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #e9f0f0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .ceramic-card {
+      max-width: 1200px;
+      width: 100%;
+      background: #fcfcfc;
+      background-image: radial-gradient(circle at 20% 30%, rgba(235, 245, 245, 0.4) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(220, 235, 235, 0.3) 0%, transparent 40%);
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 20, 0.2), 
+                  0 8px 24px -8px rgba(0, 30, 30, 0.1),
+                  inset 0 1px 4px rgba(255, 255, 255, 0.8);
+      border-radius: 42px 42px 32px 32px;
+      padding: 2rem 1.8rem 2.5rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(210, 230, 230, 0.5);
+      backdrop-filter: blur(1px);
+    }
+
+    .nav-pages {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.2rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #d6e6e6;
+      padding-bottom: 1.2rem;
+    }
+
+    .page-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0.2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #3d5c5c;
+      cursor: pointer;
+      transition: 0.2s;
+      border-bottom: 3px solid transparent;
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-btn i {
+      color: #558b8b;
+      font-size: 1.1rem;
+    }
+
+    .page-btn:hover {
+      color: #1b3a3a;
+      border-bottom-color: #99c2c2;
+    }
+
+    .page-btn.active {
+      color: #1f4a4a;
+      border-bottom-color: #3f7a7a;
+      font-weight: 600;
+    }
+
+    .pages-container {
+      display: block;
+      min-height: 420px;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .page.active-page {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0.4; transform: translateY(4px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== ENLARGED PROFILE HEADER ===== */
+    .profile-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem 2.5rem;
+      margin-bottom: 1.8rem;
+      background: rgba(245, 252, 252, 0.4);
+      padding: 1.2rem 2rem;
+      border-radius: 60px 20px 20px 60px;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(200, 220, 220, 0.3);
+    }
+
+    /* LARGER PHOTO - 130px with border */
+    .profile-pic {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(60, 100, 100, 0.2), 0 0 0 4px white, 0 0 0 6px #b8d4d4;
+      background: #daecec;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.03);
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Fallback if image doesn't load */
+    .profile-pic .fallback-icon {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: #366060;
+    }
+
+    .profile-pic img:not([src]), 
+    .profile-pic img[src=""] {
+      display: none;
+    }
+
+    .profile-pic img:not([src]) + .fallback-icon,
+    .profile-pic img[src=""] + .fallback-icon {
+      display: flex;
+    }
+
+    .name-title h1 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: #1f3d3d;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .name-title .badge {
+      background: #cde0e0;
+      padding: 0.2rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 500;
+      color: #1f4a4a;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 4px;
+      border: 1px solid #b8d4d4;
+    }
+
+    .contact-mini {
+      margin-left: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.6rem;
+      color: #2b5555;
+      font-size: 0.9rem;
+    }
+
+    .contact-mini i {
+      margin-right: 4px;
+      color: #3c7a7a;
+      width: 1.2rem;
+    }
+
+    /* ===== page content ===== */
+    h2.section-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #1e4646;
+      border-left: 6px solid #8bb8b8;
+      padding-left: 16px;
+      margin: 1.8rem 0 1.2rem 0;
+      letter-spacing: -0.2px;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+    }
+
+    .info-block {
+      background: rgba(245, 252, 252, 0.5);
+      padding: 1.2rem 1.6rem;
+      border-radius: 24px;
+      border: 1px solid rgba(190, 215, 215, 0.4);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 6px rgba(0, 30, 30, 0.02);
+    }
+
+    .info-block p, .info-block li {
+      color: #1f3d3d;
+      line-height: 1.6;
+    }
+
+    .info-block ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .info-block ul li {
+      padding: 0.2rem 0;
+      border-bottom: 1px dashed #d4e6e6;
+    }
+
+    .info-block ul li:last-child {
+      border: none;
+    }
+
+    .info-block i {
+      color: #3c7a7a;
+      width: 1.6rem;
+      display: inline-block;
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .chip {
+      background: #deefef;
+      padding: 0.2rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: #1a4141;
+      border: 1px solid #bdd8d8;
+    }
+
+    .job-item {
+      margin-bottom: 1.8rem;
+    }
+
+    .job-item h4 {
+      font-weight: 600;
+      color: #174040;
+      font-size: 1.1rem;
+    }
+
+    .job-item .meta {
+      color: #3f6b6b;
+      font-size: 0.9rem;
+      margin: 2px 0 6px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+    }
+
+    .job-item .meta i {
+      margin-right: 4px;
+    }
+
+    .job-desc {
+      padding-left: 1.2rem;
+      list-style: square;
+      color: #1d3a3a;
+    }
+
+    .job-desc li {
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: #f2f9f9;
+      padding: 1.2rem 1.6rem;
+      border-radius: 28px;
+      border: 1px solid #cae0e0;
+    }
+
+    .contact-details i {
+      width: 1.8rem;
+      color: #2f6a6a;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .ceramic-card {
+        padding: 1.2rem;
+        border-radius: 32px;
+      }
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-radius: 30px;
+        gap: 1rem;
+        padding: 1.5rem 1.2rem;
+      }
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+      }
+      .contact-mini {
+        margin-left: 0;
+        width: 100%;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .name-title h1 {
+        font-size: 1.8rem;
+      }
+      .nav-pages {
+        gap: 0.2rem 0.8rem;
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0.6rem;
+      }
+      .page-btn {
+        font-size: 0.85rem;
+        white-space: nowrap;
+        padding: 0.3rem 0.1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-btn i {
+        display: none;
+      }
+      .contact-mini span {
+        display: block;
+      }
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    .ceramic-card::after {
+      content: '';
+      display: block;
+      height: 4px;
+      width: 80px;
+      background: linear-gradient(90deg, #aacccc, #dceeee, #aacccc);
+      border-radius: 10px;
+      margin: 1rem auto 0;
+      opacity: 0.5;
+    }
+
+    .page {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.2rem 0.2rem 0.4rem;
+      border-radius: 28px;
+    }
+  </style>
+</head>
+<body>
+<div class="ceramic-card">
+
+  <nav class="nav-pages" id="pageNav">
+    <button class="page-btn active" data-page="page1"><i class="fas fa-user"></i> Profile</button>
+    <button class="page-btn" data-page="page2"><i class="fas fa-graduation-cap"></i> Education</button>
+    <button class="page-btn" data-page="page3"><i class="fas fa-briefcase"></i> Experience</button>
+    <button class="page-btn" data-page="page4"><i class="fas fa-address-card"></i> Contact</button>
+  </nav>
+
+  <div class="pages-container">
+
+    <!-- PAGE 1 · PROFILE -->
+    <div id="page1" class="page active-page">
+      <div class="profile-header">
+        <div class="profile-pic">
+          <img src="Profile.jpeg" alt="Moloko Seshwene">
+          <div class="fallback-icon"><i class="fas fa-user-circle"></i></div>
+        </div>
+        <div class="name-title">
+          <h1>Moloko Seshwene</h1>
+          <span class="badge"><i class="fas fa-certificate"></i> Electrician</span>
+        </div>
+        <div class="contact-mini">
+          <span><i class="fas fa-phone-alt"></i> 082 268 3739</span>
+          <span><i class="fas fa-envelope"></i> molokoseshwene38@gmail.com</span>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="info-block">
+          <h3><i class="fas fa-user-circle"></i> About</h3>
+          <p>Technical electrician with strong communication, organisational, analytical and problem-solving skills. Proven team collaborator with hands-on experience in maintenance, fault finding, and electrical installations. Dedicated to safety and precision.</p>
+          <div style="margin-top: 1rem;">
+            <span class="chip"><i class="fas fa-users"></i> Team player</span>
+            <span class="chip"><i class="fas fa-comment"></i> Communication</span>
+            <span class="chip"><i class="fas fa-chart-line"></i> Analytical</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <h3><i class="fas fa-cogs"></i> Core skills</h3>
+          <ul>
+            <li><i class="fas fa-clock"></i> Time management</li>
+            <li><i class="fas fa-bolt"></i> Electrical protocols training</li>
+            <li><i class="fas fa-shield-alt"></i> Knowledge of safety standards</li>
+            <li><i class="fas fa-tools"></i> Fault finding & diagnostics</li>
+            <li><i class="fas fa-file-alt"></i> Computer literacy</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-block" style="margin-top: 1.2rem;">
+        <h3><i class="fas fa-award"></i> Accreditations</h3>
+        <div class="chip-list">
+          <span class="chip">Trade Test Certificate · Electrician</span>
+          <span class="chip">N1–N6 Electrical Engineering</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2 · EDUCATION -->
+    <div id="page2" class="page">
+      <h2 class="section-title"><i class="fas fa-university"></i> Education</h2>
+
+      <div class="grid-2col">
+        <div class="info-block">
+          <h4><i class="fas fa-building"></i> Tshwane South College</h4>
+          <p><strong>Electrical Engineering (Heavy Current)</strong> · N1 – N6</p>
+          <ul style="margin-top: 0.6rem;">
+            <li><i class="fas fa-calculator"></i> Mathematics</li>
+            <li><i class="fas fa-flask"></i> Engineering Science</li>
+            <li><i class="fas fa-microchip"></i> Industrial Electronics</li>
+            <li><i class="fas fa-bolt"></i> Electrotechnology</li>
+            <li><i class="fas fa-cogs"></i> Power Machines</li>
+            <li><i class="fas fa-book"></i> Electrical Trade Theory</li>
+          </ul>
+          <p style="margin-top: 0.6rem;"><i class="fas fa-calendar-alt"></i> Completed N1–N6</p>
+        </div>
+
+        <div class="info-block">
+          <h4><i class="fas fa-school"></i> Motlalaohle High School</h4>
+          <p><strong>Matric · 1999</strong></p>
+          <ul>
+            <li><i class="fas fa-language"></i> English, Sepedi, Afrikaans</li>
+            <li><i class="fas fa-dna"></i> Biology</li>
+            <li><i class="fas fa-square-root-alt"></i> Mathematics</li>
+            <li><i class="fas fa-atom"></i> Physical Science</li>
+          </ul>
+          <p style="margin-top: 0.6rem;"><i class="fas fa-calendar-check"></i> Completed 1999</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 · EXPERIENCE -->
+    <div id="page3" class="page">
+      <h2 class="section-title"><i class="fas fa-briefcase"></i> Work experience</h2>
+
+      <div class="info-block" style="margin-bottom: 1.4rem;">
+        <div class="job-item">
+          <h4><i class="fas fa-microchip"></i> Artisan Assistant</h4>
+          <div class="meta"><span><i class="fas fa-building"></i> Necsa</span> <span><i class="fas fa-calendar-alt"></i> 2015 – 2018</span></div>
+          <ul class="job-desc">
+            <li>Routine maintenance on process & plant equipment</li>
+            <li>Fault finding, domestic wiring, control panels</li>
+            <li>HT/LT substations, switching, insulators</li>
+            <li>Transformer maintenance & overhead cranes</li>
+            <li>Battery inspections & general construction</li>
+            <li>Adhere to safety regulations & workshop practices</li>
+          </ul>
+        </div>
+        <div class="job-item" style="margin-top: 1.2rem;">
+          <h4><i class="fas fa-tachometer-alt"></i> Metering Technician</h4>
+          <div class="meta"><span><i class="fas fa-building"></i> Mmathipe Projects Metering</span> <span><i class="fas fa-calendar-alt"></i> 2019</span></div>
+          <ul class="job-desc">
+            <li>Installation of new meters</li>
+            <li>Commissioning & testing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <h4><i class="fas fa-tools"></i> Additional expertise</h4>
+        <div class="chip-list">
+          <span class="chip">Control panels</span>
+          <span class="chip">Substations</span>
+          <span class="chip">Switching</span>
+          <span class="chip">General workshop</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 4 · CONTACT & ADDRESS -->
+    <div id="page4" class="page">
+      <h2 class="section-title"><i class="fas fa-address-card"></i> Contact & location</h2>
+
+      <div class="grid-2col">
+        <div class="contact-details">
+          <h4><i class="fas fa-phone"></i> Phone</h4>
+          <p><i class="fas fa-mobile-alt"></i> 082 268 3739 (mobile)</p>
+          <p><i class="fas fa-phone"></i> 067 703 4466 (home)</p>
+          <hr style="border: 1px solid #cee4e4; margin: 0.4rem 0;">
+          <h4><i class="fas fa-envelope"></i> Email</h4>
+          <p><i class="fas fa-at"></i> molokoseshwene38@gmail.com</p>
+        </div>
+
+        <div class="contact-details">
+          <h4><i class="fas fa-home"></i> Address</h4>
+          <p><i class="fas fa-map-pin"></i> 14 Makhosionke Street</p>
+          <p><i class="fas fa-location-dot"></i> Lotus Gardens, Pretoria</p>
+          <div style="margin-top: 0.8rem; background: #daecec; padding: 0.4rem 1rem; border-radius: 40px; display: inline-block;">
+            <i class="fas fa-route"></i> Gauteng, South Africa
+          </div>
+        </div>
+      </div>
+
+      <div class="info-block" style="margin-top: 1.5rem;">
+        <h4><i class="fas fa-id-badge"></i> Quick reference</h4>
+        <div class="chip-list">
+          <span class="chip"><i class="fas fa-certificate"></i> Trade test</span>
+          <span class="chip"><i class="fas fa-file-alt"></i> N1–N6</span>
+          <span class="chip"><i class="fas fa-hard-hat"></i> Safety certified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const buttons = document.querySelectorAll('.page-btn');
+    const pages = {
+      page1: document.getElementById('page1'),
+      page2: document.getElementById('page2'),
+      page3: document.getElementById('page3'),
+      page4: document.getElementById('page4')
+    };
+
+    function showPage(pageId) {
+      Object.values(pages).forEach(p => p.classList.remove('active-page'));
+      if (pages[pageId]) pages[pageId].classList.add('active-page');
+
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageId) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const pageId = this.dataset.page;
+        if (pageId) showPage(pageId);
+      });
+    });
+
+    const activeBtn = document.querySelector('.page-btn.active');
+    if (activeBtn) {
+      const defaultPage = activeBtn.dataset.page;
+      if (defaultPage && pages[defaultPage]) {
+        Object.values(pages).forEach(p => p.classList.remove('active-page'));
+        pages[defaultPage].classList.add('active-page');
+      }
+    }
+  })();
+</script>
+
+</body>
+</html>
